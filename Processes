@@ -1,0 +1,10 @@
+#!/bin/bash
+#=============================================================#
+# Script Name:    Processes                                   #                                                                        #
+# By:             Reed Resch                                  #                                                                     #      
+# Date:           4/19/2021                                   #                                                                        #
+# Purpose:        View Running Processes                      #                                                             #
+#                                                             #                                                                                                          #
+#=============================================================#
+Proccesses=$ top
+echo "Processes"

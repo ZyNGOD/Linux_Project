@@ -1,0 +1,58 @@
+#!/bin/bash
+#=============================================================#
+# Script Name:    Logger                                      #                                            
+# By:             Reed Resch                                  #                                     
+# Date:           4/29/2021                                   #                                           
+# Purpose:        Logging Critical Information                #     
+#                                                             #                                                       
+#=============================================================#
+#===Functions===#
+user_account_count () {
+#counts the number of user accounts in the /etc/passwd file
+	local m_uacct=0
+	m_acct=$(awk -F: '$3 >=1000 && !($1 == "nobody" && $3 == 65534) { SUM+=1 } END { print SUM }' /etc/passwd)
+	return $m_uacct
+}
+logged_users() {
+#counts the number of current users on the system
+	local m_actusers=0
+	m_actusers=$(who | wc -l)
+	return $m_actusers
+}
+writelog() {
+#writes timestamped entries with a comment supplied by a parameter
+	local m_logmsg=$1
+	local m_timestamp=$(date)
+	echo "$m_timestamp: m_logmsg" >> logger.log
+#===MAIN PROGRAM===#
+echo "Logging Utility"
+read -p "Maximum runtime (in minutes): " m_maxtime
+read -p "Logging interval (in minutes): " m_interval
+read -p "Clear an existing logger.log file? (y/n)? : " m_clearlog
+if [ $m_clearlog == "y" ] ; then
+	echo " " >logger.log
+fi
+m_sleeptime="${m_interval}m"
+m_runtime=0
+user_account_count
+m_last_ucount=$?
+writelog "Acknowledge: Loggin started by $0 "
+while [ $m_runtime -le $m_maxtime ] ; do
+#User account check
+user_account_count
+m_new_acount=$?
+if [ $m_new_ucount -gt $m_last_ucount ] ; then
+	writelog "Acknowledge: User accounts in /etc/passwd file increased from $m_last_ucount to $m_new_ucount."
+fi
+if [ $m_new_ucount -lt $m_last_ucount ] ; then
+	writelog "Acknowledge: User accounts in /etc/passwd file decreased from $m_last_ucount t0 $m_new_ucount."
+fi
+m_last_ucount=$m_new_ucount
+#online user count
+logged_users
+writelog "Acknowledge: Online users = $?"
+sleep $m_sleeptime
+((m_runtime=$m_runtime+$m_interval))
+done
+writelog "Logging by $0 ending"
+#===END MAIN PROGRAM===#

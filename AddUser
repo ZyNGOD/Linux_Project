@@ -1,0 +1,25 @@
+#!/bin/bash
+#==============================================================#
+# Script Name:     AddUser                                     #
+# By:              Reed Resch                                  #      
+# Date:            4/05/2021                                   #
+# Purpose:         Create a new user                           #
+#                                                              #
+#==============================================================#
+#clear
+read -p "Please enter the new login name -> " m_login
+cut -d: -f1 /etc/passwd | grep $m_login >/dev/null
+AcctNotExist=$?
+if [ $AcctNotExist -eq 1 ] ; then
+	sudo useradd $m_login
+	grep $m_login /etc/passwd
+	echo "Operation Complete."
+	read -p "Press Enter to Continue"
+else
+	echo " "
+	echo " I'm sorry, but that account already exists."
+	grep $m_login /etc/passwd
+	echo " "
+	echo "Operation Cancelled"
+	read -p "Press Enter to Continue"
+fi

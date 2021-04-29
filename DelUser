@@ -1,0 +1,34 @@
+#!/bin/bash
+#=============================================================#
+# Script Name:    Delete User                                 #             
+# By:             Reed Resch                                  #      
+# Date:           4/19/2021                                   #
+# Purpose:        Delete a User Account                       #
+#                                                             #
+#=============================================================#
+# clear
+# must del specified user acct
+# must give the option to del home dir
+# move the user's home dir to the /archive folder
+# leave the folder in place (in the /Users Dir)
+# A log entry for the deleted user acc must be placed in AdminUtils.log including:
+# date/time
+# the name of acct deleted
+# Dispostion of the home dir
+# name of the user who deleted the acct
+read -p "Please enter the Account User name to be removed. -> " m_login
+cut -d: -f1 /etc/passwd | grep $m_login >/dev/null
+AcctExist=$?
+if [ $AcctExist -eq 0 ] ; then
+	sudo userdel $m_login
+	cut -d: -f1 /etc/passwd 
+	echo "User Removed Successfully."
+	read -p "Press Enter to Continue"
+else
+	echo " "
+	echo " I'm sorry that account does not Exist."
+	cut -d: -f1 /etc/passwd
+	echo " "
+	echo "Operation Cancelled"
+	read -p "Press Enter to Continue"
+fi

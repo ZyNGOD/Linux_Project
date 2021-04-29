@@ -1,0 +1,61 @@
+#!/bin/bash
+#===================================================================#
+# Script Name:  AdminUtils                                          #
+# By:           Reed Resch                                          #      
+# Date:         4/19/2021                                           #
+# Purpose:      Menu System to provide friendly menu items for      #
+#               various Linux management functions                  #
+#===================================================================#
+endloop=0
+while true; do
+clear
+echo "+======================= AdminUtils ===========================+"
+echo "+ A - Display Hostname		= F - Add User 	               +"
+echo "+ B - Processes & Resources	= G - Delete User              +"
+echo "+ C - Memory Usage		= H -	      	               +"
+echo "+ D - Logged-on Users		= I -	                       +"
+echo "+ E -				= Q - Quit	               +"
+echo "+==============================================================+"
+read -p "Enter an option: " m_option
+case $m_option in
+	q|Q) echo "Quitting program"
+	     endloop="1"
+             break
+             ;;
+	a|A) echo "Hostname: $HOSTNAME"
+             uptime
+             read -p "Press Enter to Continue"
+             continue
+             ;;
+	b|B) ./Linux\ Scripts/Processes
+	     read -p "Press Enter to Continue"
+	     continue
+             ;;
+	c|C) ./Linux\ Scripts/Mem
+	     read -p "Press Enter to Continue"
+	     continue
+             ;;
+	d|D) ./Linux\ Scripts/Who
+	     read -p "Press Enter to Continue"
+	     continue
+             ;;
+        e|E) echo "Placeholder E"
+	     read -p "Press Enter to Continue"
+	     continue
+             ;;
+	f|F) ./Linux\ Scripts/AddUser2
+	     read -p "Press Enter to Continue"
+	     continue
+             ;;
+        g|G) echo "Placeholder G"
+	     read -p "Press Enter to Continue"
+	     continue
+             ;;
+	*)   echo "Invalid entry"
+	     echo ""
+	     read -p "Press Enter to Continue"
+	     continue
+             exit 1
+             ;;
+esac
+done

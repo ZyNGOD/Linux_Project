@@ -1,0 +1,12 @@
+#!/bin/bash
+#==============================================================#
+# Script Name:     AddUser2                                    #
+# By:              Reed Resch                                  #      
+# Date:            4/26/2021                                   #
+# Purpose:         Create a new user                           #
+#                                                              #
+#==============================================================#
+
+date_now=$(date "+%F-%H-%M-%S")
+echo "date_now" >> AdminUtils.txt
+    

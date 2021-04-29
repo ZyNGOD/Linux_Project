@@ -1,0 +1,40 @@
+#!/bin/bash
+#==============================================================#
+# Script Name:     AddUser2                                    #
+# By:              Reed Resch                                  #      
+# Date:            4/26/2021                                   #
+# Purpose:         Create a new user                           #
+#                                                              #
+#==============================================================#
+function checkuser {
+# Purpose: Checks to see if the user exists and sets the value of the
+# AcctNotExist variable.
+cut -d: -f1 /etc/passwd | grep $m_login >NULL
+AcctNotExist=$?
+}
+
+read -p "Please enter the new login name -> " m_login
+checkuser
+if [ $AcctNotExist -eq 1 ] ; then
+   sudo useradd $m_login
+   checkuser
+   if [[ $AcctNotExist -eq 0 ]] ; then
+      grep $m_login /etc/passwd |
+      echo "Operation Complete."
+   else
+      echo "User account creation unsuccessful."
+   fi
+else
+   echo "That account already exists."
+   echo " " 
+   grep $m_login /etc/passwd
+   echo " "
+   echo "Operation Cancelled"
+fi
+#===Functions===#
+writelog() {
+#writes timestamped entries with a comment supplied by a parameter
+	local m_creator=$(whoami)
+	local m_timestamp=$(date)
+	echo "New User $m_login Created by $m_creator at $m_timestamp" >>AdminUtils.log
+}

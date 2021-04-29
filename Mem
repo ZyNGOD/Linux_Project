@@ -1,0 +1,10 @@
+#!/bin/bash
+#=============================================================#
+# Script Name:    Memory Usage                                #                                            
+# By:             Reed Resch                                  #                                     
+# Date:           4/19/2021                                   #                                           
+# Purpose:        View Memory Usage                           #     
+#                                                             #                                                       
+#=============================================================#
+Memory=$ free
+echo "Memory"
